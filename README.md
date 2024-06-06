@@ -20,7 +20,7 @@ To format the question and answer columns to match the inputs Gemma was trained 
 Example input - ` {"text": "<bos><start_of_turn>user\nWhat are the symptoms of Glaucoma?<end_of_turn>\n<start_of_turn>model\nGlaucoma symptoms include blurred vision, eye pain, headache and nausea.<end_of_turn><eos>"} `
 
 ### 2) Model Training
-LoRA allows efficient fine-tuning of Gemma-2b for our open-source medical chatbot. Instead of updating the entire model's massive number of parameters, LoRA trains a small set of additional weights that are inserted into the pre-trained model Gemma Model.This approach significantly reduces the computational requirements and memory footprint during fine-tuning.
+LoRA allows efficient fine-tuning of Gemma-2b for our open-source medical chatbot. Instead of updating the entire model's massive number of parameters, LoRA trains a small set of additional weights that are inserted into the pre-trained Gemma Model.This approach significantly reduces the computational requirements and memory footprint during fine-tuning.
 
 Initially I tried to finetune the model using a batch size equal to 4 and 16 lora-layers, However this led to `Insufficient Memory` errors and I had reduce memory use for LoRA fine-tuning which had adequate resources in the documentation [Link to MLX Memory Isssues docs - https://github.com/ml-explore/mlx-examples/tree/main/lora#Memory-Issues]
 #### Final LoRA Training Parameters
@@ -87,4 +87,4 @@ interest in activities that were once enjoyable, decreased energy levels, and ch
 - One of my initial assumptions was the integrity and adequate question coverage of the dataset. A future improvement is to supplement the dataset with additional medical question-answer pairs from other relevant and high-quality medical datasets leading to a greater coverage of medical questions.
 - Another improvement would be in the form of hardware support to allow the finetuning of the gemma-2b model till weight convergence. In the current state my laptop's hardware constraints have limited the training iterations,batch size and LoRA-layers impacting the models ability to fully converge. A powerful GPU and increased RAM would mitigate this limitation. Additionally this would also allow me to fine-tune the larger Gemma-7b model which a part of the same model family. This model will likely yield more accurate results due to its larger size.
 
-All of these improvements would improve the model's ability to generalize and answer a wider range of medical questions accurately, thereby providing quick and reliable responses to a diverse range of users seeking medical information."
+All of these improvements would improve the model's ability to generalize and answer a wider range of medical questions accurately.
