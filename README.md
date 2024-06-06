@@ -1,4 +1,4 @@
-# Supportiv MLE Intern Medical Assistant Bot Assignment
+# Supportiv MLE Intern Medical Assistant Assignment
 
 ### Problem Statement
 
@@ -6,13 +6,13 @@ Develop a medical question-answering system utilizing the provided dataset conta
 
 ### Approach and Assumptions
 
-1. Upon initially reviewing the task of developing a medical chatbot, my immediate idea was to leverage Large Language Models (LLMs). However, as the end of the task specifies no third-party LLM APIs (such as OpenAI, Claude), I focused my attention on using open-source LLMs that could be fine-tuned and run locally on my machine or on Google Colab.
-
+1. Upon initially reviewing the task of developing a medical chatbot, my immediate idea was to leverage Large Language Models (LLMs). However, as the end of the task specifies no third-party LLM APIs (such as OpenAI, Claude), I focused my attention on using open-source LLMs that could be fine-tuned and run locally on my machine or on Google Colab. I have assumed the integrity of the question answer pairs provided in the dataset and that they provide adequate coverage of medical questions that the model will be expected to answer.
+ 
 2. Initially, I decided to fine-tune a GPT-2 model for the medical question-answering task.I preprocessed the dataset by removing NaN values, eliminating duplicate questions, and saving it to a text file ('input.txt') which was fed into GPT-2 model training.However, the fine-tuned GPT-2 model was not very accurate and struggled with hallucinations, misunderstanding the context of questions, and providing incorrect outputs. Additionally, training it on a simple file of Q&A pairs without a sepcific **context column** did not feel like the **best approach for this task**.
 
 3. I ultimately decided to use the `mlx-community/quantized-gemma-2b` model because I could leverage Apple's MLX library (A framework for machine learning research on Apple silicon chips) to fine-tune it locally on my MacBook Pro using MLX-LoRA on the medical dataset provided.
 Gemma is a family of lightweight, state-of-the-art open models built on the research and technology used to create the Gemini models. Gemma-2b's quantization reduces the memory footprint and increases the inference speed, enabling deployment and training on devices with limited resources. Despite its smaller size, the Gemma-2b model demonstrates performance comparable to larger models, as shown by the MMLU benchmark comparison with other models.
-<img width="1186" alt="Screenshot 2024-06-06 at 5 43 24 PM" src="https://github.com/Arjun-254/SupportivMLE-InternFinetune/assets/102243820/898b44d5-1647-4e64-9564-7e61fa787690">
+<img width="1186" alt="MMLU Benchmarks for Gemma compared to other models." src="https://github.com/Arjun-254/SupportivMLE-InternFinetune/assets/102243820/898b44d5-1647-4e64-9564-7e61fa787690">
 
 ### 1) Data Preprocessing
 To format the question and answer columns to match the inputs Gemma was trained on, each question-answer pair in the dataset is transformed into a specific structured format. This format includes special tokens like <bos>, <start_of_turn>, <end_of_turn>, and <eos> to clearly differentiate between the user's question and the model's response. After formatting, I split into training and validation sets, with 90% allocated to training and 10% to validation. I then shuffled the data for randomness before being saved as JSON Lines in the data folder for the finetuning step.
@@ -20,14 +20,14 @@ To format the question and answer columns to match the inputs Gemma was trained 
 Example input - ` {"text": "<bos><start_of_turn>user\nWhat are the symptoms of Glaucoma?<end_of_turn>\n<start_of_turn>model\nGlaucoma symptoms include blurred vision, eye pain, headache andnausea.<end_of_turn><eos>"} `
 
 ### 2) Model Training
-LoRA allows efficient fine-tuning of Gemma2B for our open-source medical chatbot. Instead of updating the entire model's massive number of parameters, LoRA trains a small set of additional weights that are inserted into the pre-trained model Gemma Model.This approach significantly reduces the computational requirements and memory footprint during fine-tuning.
+LoRA allows efficient fine-tuning of Gemma-2b for our open-source medical chatbot. Instead of updating the entire model's massive number of parameters, LoRA trains a small set of additional weights that are inserted into the pre-trained model Gemma Model.This approach significantly reduces the computational requirements and memory footprint during fine-tuning.
 
 Initially I tried to finetune the model using a batch size equal to 4 and 16 lora-layers, However this led to `Insufficient Memory` errors and I had reduce memory use for LoRA fine-tuning which had adequate resources in the documentation [Link to MLX Memory Isssues docs - https://github.com/ml-explore/mlx-examples/tree/main/lora#Memory-Issues]
 #### Final LoRA Training Parameters
 - **Model:** `mlx-community/quantized-gemma-2b`
 - **Iterations:** 600
 - **Batch Size:** 1
-- **LORA Layers:** 4
+- **LoRA Layers:** 4
 - **Learning Rate:** 1.000e-05
 
 ### 3) Model Evaluation 
@@ -80,5 +80,11 @@ variety of factors, including genetics, brain chemistry, and life stressors. Sym
 of sadness, hopelessness, and emptiness; changes in sleep patterns; changes in eating habits; changes in energy levels;
 and feelings of guilt or inadequacy. Depression can also cause changes in behavior, including decreased motivation and
 interest in activities that were once enjoyable, decreased energy levels, and changes in
-<img width="1186" alt="Screenshot 2024-06-06 at 7 32 17 PM" src="https://github.com/Arjun-254/SupportivMLE-InternFinetune/assets/102243820/b7405caf-b45d-416a-b1f4-fc17d2cacd1b">
 
+
+
+### 5) Potential improvements
+- One of my initial assumptions was the integrity and adequate question coverage of the dataset. A future improvement is to supplement the dataset with additional medical question-answer pairs from other relevant and high-quality medical datasets leading to a greater coverage of medical questions.
+- Another improvement would be in the form of hardware support to allow the finetuning of the gemma-2b model till weight convergence. In the current state my laptop's hardware constraints have limited the training iterations,batch size and LoRA-layers impacting the models ability to fully converge. A powerful GPU and increased RAM would mitigate this limitation. Additionally this would also allow me to fine-tune the larger Gemma-7b model which a part of the same model family. This model will likely yield more accurate results due to its larger size.
+
+All of these improvements would improve the model's ability to generalize and answer a wider range of medical questions accurately, thereby providing quick and reliable responses to a diverse range of users seeking medical information."
