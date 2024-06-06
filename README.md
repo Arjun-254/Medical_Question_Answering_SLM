@@ -17,7 +17,7 @@ Gemma is a family of lightweight, state-of-the-art open models built on the rese
 ### 1) Data Preprocessing
 To format the question and answer columns to match the inputs Gemma was trained on, each question-answer pair in the dataset is transformed into a specific structured format. This format includes special tokens like <bos>, <start_of_turn>, <end_of_turn>, and <eos> to clearly differentiate between the user's question and the model's response. After formatting, I split into training and validation sets, with 90% allocated to training and 10% to validation. I then shuffled the data for randomness before being saved as JSON Lines in the data folder for the finetuning step.
 
-Example input - ` {"text": "<bos><start_of_turn>user\nWhat are the symptoms of Glaucoma?<end_of_turn>\n<start_of_turn>model\nGlaucoma symptoms include blurred vision, eye pain, headache andnausea.<end_of_turn><eos>"} `
+Example input - ` {"text": "<bos><start_of_turn>user\nWhat are the symptoms of Glaucoma?<end_of_turn>\n<start_of_turn>model\nGlaucoma symptoms include blurred vision, eye pain, headache and nausea.<end_of_turn><eos>"} `
 
 ### 2) Model Training
 LoRA allows efficient fine-tuning of Gemma-2b for our open-source medical chatbot. Instead of updating the entire model's massive number of parameters, LoRA trains a small set of additional weights that are inserted into the pre-trained model Gemma Model.This approach significantly reduces the computational requirements and memory footprint during fine-tuning.
