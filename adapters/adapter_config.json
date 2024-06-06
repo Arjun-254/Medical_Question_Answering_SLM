@@ -1,12 +1,12 @@
 {
     "adapter_path": "adapters",
-    "batch_size": 2,
+    "batch_size": 1,
     "config": null,
     "data": "data",
     "grad_checkpoint": null,
-    "iters": 1000,
+    "iters": 600,
     "learning_rate": 1e-05,
-    "lora_layers": 8,
+    "lora_layers": 4,
     "lora_parameters": {
         "rank": 8,
         "alpha": 16,
