@@ -6,7 +6,7 @@ Develop a medical question-answering system utilizing the provided dataset conta
 
 ### Approach and Assumptions
 
-1. Upon initially reviewing the task of developing a medical chatbot, my immediate idea was to leverage Large Language Models (LLMs). However, as the end of the task specifies no third-party LLM APIs (such as OpenAI, Claude), I focused my attention on using open-source LLMs that could be fine-tuned and run locally on my machine or on Google Colab. I have assumed the integrity of the question answer pairs provided in the dataset and that they provide adequate coverage of medical questions that the model will be expected to answer.
+1. Upon initially reviewing the PS, I focused my attention on using open-source LLMs that could be fine-tuned and run locally on my machine or on Google Colab. I have assumed the integrity of the question answer pairs provided in the dataset and that they provide adequate coverage of medical questions that the model will be expected to answer.
  
 2. Initially, I decided to fine-tune a GPT-2 model for the medical question-answering task.I preprocessed the dataset by removing NaN values, eliminating duplicate questions, and saving it to a text file ('input.txt') which was fed into GPT-2 model training.However, the fine-tuned GPT-2 model was not very accurate and struggled with hallucinations, misunderstanding the context of questions, and providing incorrect outputs. Additionally, training it on a simple file of Q&A pairs without a  specific **context column** did not feel like the **best approach for this task**.
 
