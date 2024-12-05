@@ -1,4 +1,4 @@
-# Supportiv MLE Intern Medical Assistant Assignment
+# Fine-Tuned SLM's for a Medical Question-Answering System
 
 ### Problem Statement
 
